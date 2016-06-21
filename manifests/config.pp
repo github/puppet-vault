@@ -43,7 +43,7 @@ class vault::config (
     mode    => '0644',
     group   => $vault_user,
     owner   => $vault_user,
-    content => sorted_json($config_hash),
+    content => sorted_json($config_hash, true, 2),
     notify  => Class['::vault::service'],
     require => [ File['/etc/vault'],
       File['/etc/init.d/vault'] ],
