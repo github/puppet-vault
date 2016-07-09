@@ -33,7 +33,7 @@ vault::config_hash:
     listener:
         tcp:
             address: "%{::fqdn}:8200"
-            tls_disable: 1
+            tls_disable: true
     telemetry:
         statsite_address: '127.0.0.1:8125'
         disable_hostname: true
@@ -43,6 +43,28 @@ vault::package_ensure: 'latest'
 vault::vault_user: 'vault'
 vault::restart_cmd: '/etc/init.d/vault restart'
 ````
+
+To run multiple listeners, for example disabling TLS on 127.0.0.1, but requiring TLS from external hosts
+````
+    listener:
+        - tcp:
+            address: "127.0.0.1:8200"
+            tls_disable: true
+        - tcp:
+            address: "%{::fqdn}:8200"
+            tls_cert_file: "/path/to/cert.pub"
+            tls_key_file:  "/path/to/private.key"
+````
+
+[Vault Enterprise customers using a PKCS#11 HSM](https://atlas.hashicorp.com/help/vault/hsm/configuration) might do...
+```
+    hsm:
+        pkcs11:
+            lib: "/path/to/libpkcs11.so"
+            slot: "0"
+            key_label: "vault"
+            pin: "Goofus commits secrets to repos. Gallant uses $VAULT_HSM_PIN"
+```
 
 # Uninstalling Vault
 
