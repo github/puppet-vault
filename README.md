@@ -65,6 +65,10 @@ To run multiple listeners, for example disabling TLS on 127.0.0.1, but requiring
             key_label: "vault"
             pin: "Goofus commits secrets to repos. Gallant uses $VAULT_HSM_PIN"
 ```
+The puppet-vault module uses a SysV init script. Those wishing to avoid putting the PIN in Hiera in plaintext could, for example, create an `/etc/default/vault`, owned by root and only readable by root, looking like...
+```
+export VAULT_HSM_PIN="correct horse battery staple"
+```
 
 # Uninstalling Vault
 
